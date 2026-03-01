@@ -1,0 +1,37 @@
+
+# Fichiers sensibles
+.env
+*.log
+
+# Uploads (trop volumineux pour Git)
+/wp-content/uploads/
+
+# Cache et fichiers temporaires
+wp-config-local.php
+/wp-content/cache/
+/wp-content/upgrade/
+/wp-content/backup*/
+/wp-content/wflogs/
+/wp-includes/
+/wp-admin/
+
+# Plugins tiers (installer via WP admin ou Composer)
+/wp-content/plugins/*
+!/wp-content/plugins/index.php
+!/wp-content/plugins/cocktailmusic-*/
+
+# Thèmes tiers
+/wp-content/themes/*
+!/wp-content/themes/index.php
+!/wp-content/themes/cocktailmusic*/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.claude/
+.idea/
+.vscode/
+*.swp
+*.swo
