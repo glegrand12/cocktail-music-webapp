@@ -1,0 +1,316 @@
+/* =====================================================
+   ADMIN DEVIS STYLES
+   ===================================================== */
+
+.cocktailmusic-admin {
+    max-width: 1400px;
+}
+
+/* Stats cards */
+.devis-stats {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.devis-stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 24px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    min-width: 100px;
+    transition: border-color 0.2s;
+}
+
+.devis-stat-card:hover {
+    border-color: var(--stat-color, #2271b1);
+    color: #333;
+}
+
+.devis-stat-card.active {
+    border-color: var(--stat-color, #2271b1);
+    border-width: 2px;
+}
+
+.devis-stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--stat-color, #2271b1);
+    line-height: 1;
+}
+
+.devis-stat-label {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Actions bar */
+.devis-actions-bar {
+    margin: 16px 0;
+    display: flex;
+    gap: 8px;
+}
+
+/* Status badge */
+.devis-status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* Table */
+.devis-table td {
+    vertical-align: middle;
+}
+
+.devis-table a {
+    text-decoration: none;
+}
+
+.devis-view-btn {
+    color: #2271b1;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.devis-view-btn:hover {
+    color: #135e96;
+}
+
+.devis-delete-btn {
+    color: #b32d2e;
+}
+
+.devis-delete-btn:hover {
+    color: #a00;
+}
+
+/* Detail row */
+.devis-detail {
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.devis-detail__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.devis-detail__section h4 {
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+    color: #2271b1;
+}
+
+.devis-detail__section p {
+    margin: 6px 0;
+    font-size: 13px;
+}
+
+.devis-detail__section--full {
+    grid-column: 1 / -1;
+}
+
+.devis-detail__actions {
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.devis-detail__actions .button {
+    font-size: 12px;
+    padding: 4px 12px;
+    min-height: 28px;
+}
+
+/* Empty state */
+.devis-empty {
+    padding: 60px 20px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.devis-empty p {
+    font-size: 16px;
+    color: #666;
+}
+
+/* =====================================================
+   CALENDAR STYLES
+   ===================================================== */
+
+.devis-calendar-actions {
+    margin: 20px 0;
+    display: flex;
+    gap: 8px;
+}
+
+.devis-calendar-navigation {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.devis-calendar-navigation h2 {
+    margin: 0;
+    min-width: 200px;
+    text-align: center;
+}
+
+/* Calendar table */
+.devis-calendar {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #ddd;
+    table-layout: fixed;
+}
+
+.devis-calendar thead th {
+    padding: 12px 8px;
+    background: #2B2D42;
+    color: #fff;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.devis-calendar td {
+    border: 1px solid #e5e5e5;
+    vertical-align: top;
+    padding: 4px;
+    min-height: 100px;
+    height: 120px;
+}
+
+.devis-calendar__empty {
+    background: #f9f9f9;
+}
+
+.devis-calendar__date {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    padding: 4px 6px;
+    margin-bottom: 4px;
+}
+
+.devis-calendar__day.is-today {
+    background: #fff8f0;
+}
+
+.devis-calendar__day.is-today .devis-calendar__date {
+    background: #EF8354;
+    color: #fff;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.devis-calendar__day.has-events {
+    background: #f0f7ff;
+}
+
+/* Calendar events */
+.devis-calendar__events {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.devis-calendar__event {
+    display: block;
+    padding: 4px 6px;
+    background: #fff;
+    border-left: 3px solid #2196F3;
+    border-radius: 2px;
+    font-size: 11px;
+    line-height: 1.3;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.2s;
+}
+
+.devis-calendar__event:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.devis-calendar__event strong {
+    display: block;
+    font-size: 11px;
+}
+
+.devis-calendar__event span {
+    display: block;
+    color: #888;
+    font-size: 10px;
+}
+
+/* Calendar legend */
+.devis-calendar-legend {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: #666;
+}
+
+.devis-calendar-legend__item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.devis-calendar-legend__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .devis-detail__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .devis-stats {
+        flex-direction: column;
+    }
+
+    .devis-calendar-navigation {
+        flex-direction: column;
+    }
+}

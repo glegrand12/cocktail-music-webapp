@@ -91,27 +91,74 @@
     }
 
     /**
-     * Form validation enhancement
+     * Validation helpers
+     */
+    var validators = {
+        email: function(value) {
+            if (!value) return '';
+            var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(value) ? '' : 'Adresse email invalide. Ex : jean@exemple.fr';
+        },
+
+        telephone: function(value) {
+            if (!value) return '';
+            var cleaned = value.replace(/[\s.\-]/g, '');
+            var re = /^(?:(?:\+33|0033)0?|0)[1-9]\d{8}$/;
+            return re.test(cleaned) ? '' : 'Numero invalide. Format attendu : 06 12 34 56 78';
+        },
+
+        code_postal: function(value) {
+            if (!value) return '';
+            var re = /^\d{5}$/;
+            return re.test(value.trim()) ? '' : 'Code postal invalide. Format attendu : 5 chiffres (ex: 59000)';
+        },
+
+        nom: function(value) {
+            if (!value || !value.trim()) return 'Le nom est obligatoire';
+            return '';
+        },
+
+        prenom: function(value) {
+            if (!value || !value.trim()) return 'Le prenom est obligatoire';
+            return '';
+        },
+
+        type_event: function(value) {
+            if (!value) return 'Veuillez selectionner un type d\'evenement';
+            return '';
+        }
+    };
+
+    function showFieldError(field, message) {
+        var container = field.closest('.devis-form__field');
+        if (!container) return;
+
+        var errorEl = container.querySelector('.devis-form__error');
+        if (errorEl) {
+            errorEl.textContent = message;
+        }
+
+        if (message) {
+            container.classList.add('has-error');
+            container.classList.remove('is-valid');
+        } else if (field.value.trim()) {
+            container.classList.remove('has-error');
+            container.classList.add('is-valid');
+        } else {
+            container.classList.remove('has-error');
+            container.classList.remove('is-valid');
+        }
+    }
+
+    /**
+     * Form validation
      */
     function handleFormValidation() {
-        const forms = document.querySelectorAll('.devis-form');
+        var forms = document.querySelectorAll('.devis-form');
 
         forms.forEach(function(form) {
-            form.addEventListener('submit', function(e) {
-                const submitBtn = form.querySelector('button[type="submit"]');
-
-                // Add loading state
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = 'Envoi en cours...';
-                }
-
-                // Basic validation is handled by HTML5 required attribute
-                // This just adds visual feedback
-            });
-
-            // Add focus styles
-            const inputs = form.querySelectorAll('input, select, textarea');
+            // Real-time validation on blur
+            var inputs = form.querySelectorAll('input, select, textarea');
             inputs.forEach(function(input) {
                 input.addEventListener('focus', function() {
                     this.parentElement.classList.add('focused');
@@ -119,7 +166,93 @@
 
                 input.addEventListener('blur', function() {
                     this.parentElement.classList.remove('focused');
+
+                    var name = this.getAttribute('name');
+                    if (validators[name]) {
+                        var error = validators[name](this.value);
+                        showFieldError(this, error);
+                    }
                 });
+
+                // Clear error on input
+                input.addEventListener('input', function() {
+                    var container = this.closest('.devis-form__field');
+                    if (container && container.classList.contains('has-error')) {
+                        var name = this.getAttribute('name');
+                        if (validators[name]) {
+                            var error = validators[name](this.value);
+                            if (!error) {
+                                showFieldError(this, '');
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Submit validation
+            form.addEventListener('submit', function(e) {
+                var hasError = false;
+
+                // Validate required fields
+                var requiredChecks = [
+                    { name: 'nom', label: 'nom' },
+                    { name: 'prenom', label: 'prenom' },
+                    { name: 'email', label: 'email' },
+                    { name: 'telephone', label: 'telephone' },
+                    { name: 'type_event', label: 'type d\'evenement' }
+                ];
+
+                requiredChecks.forEach(function(check) {
+                    var field = form.querySelector('[name="' + check.name + '"]');
+                    if (!field) return;
+
+                    var value = field.value.trim();
+                    var error = '';
+
+                    if (!value) {
+                        error = 'Ce champ est obligatoire';
+                        hasError = true;
+                    } else if (validators[check.name]) {
+                        error = validators[check.name](value);
+                        if (error) hasError = true;
+                    }
+
+                    showFieldError(field, error);
+                });
+
+                // Validate optional fields with format
+                var optionalChecks = ['code_postal'];
+                optionalChecks.forEach(function(name) {
+                    var field = form.querySelector('[name="' + name + '"]');
+                    if (!field || !field.value.trim()) return;
+
+                    if (validators[name]) {
+                        var error = validators[name](field.value);
+                        if (error) {
+                            hasError = true;
+                            showFieldError(field, error);
+                        }
+                    }
+                });
+
+                if (hasError) {
+                    e.preventDefault();
+                    // Scroll to first error
+                    var firstError = form.querySelector('.has-error');
+                    if (firstError) {
+                        var headerHeight = header ? header.offsetHeight : 0;
+                        var pos = firstError.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                        window.scrollTo({ top: pos, behavior: 'smooth' });
+                    }
+                    return;
+                }
+
+                // Add loading state
+                var submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Envoi en cours...';
+                }
             });
         });
     }
@@ -128,10 +261,10 @@
      * Intersection Observer for animations
      */
     function handleScrollAnimations() {
-        const animatedElements = document.querySelectorAll('.service-card, .value-card, .sector, .stat, .timeline__item, .contact-card');
+        var animatedElements = document.querySelectorAll('.service-card, .value-card, .sector, .stat, .timeline__item, .contact-card');
 
         if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver(function(entries) {
+            var observer = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
                     if (entry.isIntersecting) {
                         entry.target.style.opacity = '1';

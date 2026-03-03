@@ -285,3 +285,10 @@ add_filter('script_loader_tag', 'cocktailmusic_defer_scripts', 10, 2);
  * Include form handler
  */
 require_once get_template_directory() . '/inc/form-handler.php';
+
+/**
+ * Include admin devis management
+ */
+if (is_admin()) {
+    require_once get_template_directory() . '/inc/admin-devis.php';
+}
